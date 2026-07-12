@@ -174,13 +174,35 @@ Tunggu hingga proses instalasi selesai.
 
 ## 4. Pastikan File Model Tersedia
 
-Pastikan file berikut berada pada folder utama project.
+Sebelum menjalankan aplikasi, pastikan file model Deep Learning tersedia pada folder utama project.
 
-```
+```text
 brain_tumor_model.keras
-
 class_names.json
 ```
+
+Apabila file `brain_tumor_model.keras` belum tersedia, silakan unduh terlebih dahulu melalui Google Drive berikut:
+
+**📥 Download Model (.keras)**
+
+https://drive.google.com/file/d/1wuhNIglJ-KTFUB83bza-zpj1XCnCdV5F/view?usp=drive_link
+
+Setelah selesai diunduh, letakkan file tersebut pada root project sehingga struktur folder menjadi seperti berikut.
+
+```text
+UAS-KecerdasanBuatan/
+│
+├── app.py
+├── brain_tumor_model.keras
+├── class_names.json
+├── requirements.txt
+├── README.md
+├── laporan_uas.md
+├── uas_model.ipynb
+└── ...
+```
+
+> **Catatan:** File `brain_tumor_model.keras` tidak disertakan pada repository GitHub karena ukuran file melebihi batas maksimum upload GitHub (100 MB).
 
 ---
 
