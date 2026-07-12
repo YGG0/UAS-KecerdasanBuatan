@@ -216,7 +216,7 @@ Struktur dataset tersebut memudahkan TensorFlow dalam membaca data menggunakan f
 
 Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
-```md
+```
 ![Sample Images](static/images/sample_images.png)
 ```
 
