@@ -15,16 +15,17 @@
 
 # Daftar Isi
 
-1. Judul Proyek
-2. Business Understanding
-3. Data Understanding
-4. Exploratory Data Analysis (EDA)
-5. Data Preparation
-6. Modeling
-7. Evaluation
-8. Kesimpulan dan Rekomendasi
-9. Referensi
-10. Lampiran
+1. [Judul Proyek](#1-judul-proyek)
+2. [Business Understanding](#2-business-understanding)
+3. [Data Understanding](#3-data-understanding)
+4. [Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)
+5. [Data Preparation](#5-data-preparation)
+6. [Modeling](#6-modeling)
+7. [Evaluation](#7-evaluation)
+8. [Implementasi Sistem](#8-implementasi-sistem)
+9. [Kesimpulan dan Rekomendasi](#9-kesimpulan-dan-rekomendasi)
+10. [Referensi](#10-referensi)
+11. [Lampiran](#11-lampiran)
 
 ---
 
@@ -943,21 +944,219 @@ Model tersebut kemudian digunakan sebagai model utama pada aplikasi klasifikasi 
 
 ---
 
-# 8. Kesimpulan dan Rekomendasi
+# 8. Implementasi Sistem
 
-## 8.1 Kesimpulan
+## 8.1 Pendahuluan
+
+Setelah proses pelatihan (*training*) dan evaluasi model selesai dilakukan, model terbaik kemudian diimplementasikan ke dalam sebuah aplikasi berbasis web menggunakan framework **Flask**. Implementasi ini bertujuan agar model Deep Learning dapat digunakan secara langsung oleh pengguna untuk melakukan klasifikasi citra MRI Brain Tumor melalui antarmuka (*User Interface*) yang sederhana dan mudah digunakan.
+
+Pada penelitian ini, model **Custom Convolutional Neural Network (CNN)** dipilih sebagai model utama berdasarkan hasil evaluasi yang menunjukkan performa terbaik dibandingkan EfficientNetB0. Model tersebut disimpan dalam format **`.keras`** dan diintegrasikan ke dalam aplikasi Flask sebagai mesin prediksi.
+
+---
+
+## 8.2 Arsitektur Sistem
+
+Sistem klasifikasi Brain Tumor terdiri atas beberapa komponen utama yang saling terintegrasi.
+
+```text
+Pengguna
+    │
+    ▼
+Halaman Web Flask
+    │
+    ▼
+Upload Citra MRI
+    │
+    ▼
+Preprocessing
+(Resize 224×224)
+    │
+    ▼
+Model Custom CNN (.keras)
+    │
+    ▼
+Prediksi
+    │
+    ▼
+Menampilkan Hasil
+```
+
+Alur tersebut menunjukkan bahwa citra MRI yang diunggah oleh pengguna akan diproses terlebih dahulu melalui tahap preprocessing sebelum dikirimkan ke model Deep Learning untuk menghasilkan hasil klasifikasi.
+
+---
+
+## 8.3 Teknologi yang Digunakan
+
+Pengembangan sistem dilakukan menggunakan beberapa teknologi sebagai berikut.
+
+| Teknologi | Fungsi |
+|------------|--------|
+| Python | Bahasa pemrograman utama |
+| TensorFlow | Framework Deep Learning |
+| Keras | Pembuatan dan pelatihan model CNN |
+| Flask | Framework Web |
+| OpenCV | Pengolahan citra |
+| HTML, CSS, JavaScript | Antarmuka pengguna |
+| Bootstrap | Responsive User Interface |
+
+---
+
+## 8.4 Struktur Project
+
+Struktur direktori aplikasi yang dikembangkan ditunjukkan sebagai berikut.
+
+```text
+UAS-KecerdasanBuatan/
+
+├── app.py
+├── requirements.txt
+├── README.md
+├── laporan_uas.md
+├── uas_model.ipynb
+│
+├── model/
+│   └── brain_tumor_model.keras
+│
+├── data/
+│   └── dataset/
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── templates/
+│   ├── index.html
+│   ├── predict.html
+│   ├── about.html
+│   └── comparison.html
+│
+└── uploads/
+```
+
+Struktur tersebut memisahkan antara kode program, model Deep Learning, dataset, aset tampilan, dan template halaman web sehingga memudahkan proses pengembangan maupun pemeliharaan sistem.
+
+---
+
+## 8.5 Implementasi Antarmuka
+
+Aplikasi dikembangkan menggunakan konsep **single page web application** dengan beberapa halaman utama sebagai berikut.
+
+### a. Halaman Home
+
+Halaman Home merupakan halaman pertama yang ditampilkan ketika aplikasi dijalankan. Halaman ini berisi informasi mengenai Brain TumorAI, deskripsi proyek, serta navigasi menuju fitur-fitur utama aplikasi.
+
+> **Tambahkan Screenshot Halaman Home**
+
+```md
+![Home](static/images/web_home.png)
+```
+
+---
+
+### b. Halaman Prediksi
+
+Halaman Prediksi digunakan untuk mengunggah citra MRI Brain Tumor yang akan diproses oleh model Deep Learning.
+
+Fitur yang tersedia pada halaman ini meliputi:
+
+- Upload gambar
+- Drag and Drop
+- Preview gambar
+- Tombol Prediksi
+
+> **Tambahkan Screenshot Halaman Prediksi**
+
+```md
+![Prediction](static/images/web_prediction.png)
+```
+
+---
+
+### c. Halaman Hasil Prediksi
+
+Setelah proses prediksi selesai, sistem akan menampilkan hasil klasifikasi beserta tingkat keyakinan (*Confidence Score*) untuk masing-masing kelas.
+
+Informasi yang ditampilkan meliputi:
+
+- Gambar MRI
+- Hasil Prediksi
+- Confidence Score
+- Probabilitas setiap kelas
+
+> **Tambahkan Screenshot Hasil Prediksi**
+
+```md
+![Prediction Result](static/images/web_result.png)
+```
+
+---
+
+### d. Halaman Perbandingan Model
+
+Aplikasi juga menyediakan halaman yang menampilkan hasil perbandingan antara Custom CNN dan EfficientNetB0 berdasarkan metrik evaluasi.
+
+Informasi yang ditampilkan meliputi:
+
+- Accuracy
+- Precision
+- Recall
+- F1-Score
+
+> **Tambahkan Screenshot Halaman Perbandingan**
+
+```md
+![Comparison](static/images/web_comparison.png)
+```
+
+---
+
+## 8.6 Alur Penggunaan Sistem
+
+Tahapan penggunaan aplikasi dapat dijelaskan sebagai berikut.
+
+1. Pengguna membuka aplikasi melalui browser.
+2. Sistem menampilkan halaman utama.
+3. Pengguna memilih menu **Prediksi**.
+4. Pengguna mengunggah citra MRI Brain Tumor.
+5. Sistem melakukan preprocessing berupa resize citra menjadi 224 × 224 piksel.
+6. Model Custom CNN melakukan proses klasifikasi.
+7. Sistem menampilkan hasil prediksi beserta confidence score.
+8. Pengguna dapat melakukan prediksi kembali menggunakan citra yang berbeda.
+
+---
+
+## 8.7 Hasil Implementasi
+
+Hasil implementasi menunjukkan bahwa model Deep Learning berhasil diintegrasikan dengan aplikasi berbasis Flask dan mampu melakukan klasifikasi citra MRI secara langsung melalui browser.
+
+Pengguna tidak perlu menjalankan notebook untuk melakukan prediksi karena seluruh proses inferensi dilakukan oleh aplikasi web secara otomatis.
+
+Implementasi ini menunjukkan bahwa model hasil pelatihan tidak hanya berhenti pada tahap eksperimen, tetapi juga dapat diterapkan menjadi sebuah aplikasi yang dapat digunakan sebagai media pembelajaran maupun demonstrasi implementasi Artificial Intelligence di bidang kesehatan.
+
+---
+
+## 8.8 Kesimpulan Implementasi
+
+Tahap implementasi berhasil mengintegrasikan model **Custom Convolutional Neural Network (CNN)** ke dalam aplikasi berbasis web menggunakan framework Flask. Aplikasi mampu menerima citra MRI dari pengguna, melakukan proses klasifikasi secara otomatis, serta menampilkan hasil prediksi dengan antarmuka yang interaktif dan mudah digunakan.
+
+Dengan adanya implementasi ini, penelitian tidak hanya menghasilkan model Deep Learning, tetapi juga menghasilkan sebuah aplikasi yang siap digunakan sebagai media demonstrasi dan pengembangan lebih lanjut pada bidang klasifikasi citra medis berbasis Artificial Intelligence.
+
+# 9. Kesimpulan dan Rekomendasi
+
+## 9.1 Kesimpulan
 
 Penelitian ini berhasil mengembangkan sistem klasifikasi Brain Tumor berbasis Deep Learning menggunakan citra Magnetic Resonance Imaging (MRI). Penelitian dilakukan melalui beberapa tahapan, yaitu Business Understanding, Data Understanding, Exploratory Data Analysis (EDA), Data Preparation, Modeling, Evaluation, hingga implementasi model ke dalam aplikasi web menggunakan framework Flask.
 
 Penelitian membandingkan dua arsitektur Deep Learning, yaitu **Custom Convolutional Neural Network (CNN)** dan **EfficientNetB0**. Kedua model dilatih menggunakan dataset Brain Tumor MRI yang terdiri dari empat kelas, yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**.
 
-Berdasarkan hasil evaluasi menggunakan Accuracy, Precision, Recall, F1-Score, Confusion Matrix, dan pengujian pada aplikasi web, diperoleh bahwa **Custom CNN** memberikan performa yang lebih baik dibandingkan EfficientNetB0. Oleh karena itu, Custom CNN dipilih sebagai model utama dan diimplementasikan pada sistem klasifikasi Brain Tumor berbasis Flask.
+Berdasarkan hasil evaluasi menggunakan metrik **Accuracy**, **Precision**, **Recall**, **F1-Score**, serta **Confusion Matrix**, model **Custom CNN** memperoleh performa yang lebih baik dibandingkan EfficientNetB0 dengan nilai Accuracy sebesar **76,06%**, sedangkan EfficientNetB0 memperoleh Accuracy sebesar **25,00%**. Oleh karena itu, Custom CNN dipilih sebagai model utama dan diimplementasikan ke dalam aplikasi berbasis Flask..
 
 Secara keseluruhan, tujuan penelitian telah tercapai, yaitu membangun sistem klasifikasi Brain Tumor MRI berbasis Deep Learning yang mampu melakukan prediksi terhadap citra MRI melalui antarmuka web.
 
 ---
 
-## 8.2 Kelebihan Penelitian
+## 9.2 Kelebihan Penelitian
 
 Penelitian ini memiliki beberapa kelebihan sebagai berikut.
 
@@ -966,10 +1165,11 @@ Penelitian ini memiliki beberapa kelebihan sebagai berikut.
 - Melakukan evaluasi menggunakan beberapa metrik, yaitu Accuracy, Precision, Recall, F1-Score, serta Confusion Matrix.
 - Menghasilkan aplikasi berbasis web menggunakan Flask sehingga proses prediksi dapat dilakukan melalui browser.
 - Antarmuka aplikasi dirancang agar pengguna dapat mengunggah citra MRI dan memperoleh hasil prediksi secara langsung.
+- Sistem telah berhasil diimplementasikan ke dalam aplikasi web sehingga pengguna dapat melakukan prediksi secara langsung tanpa perlu menjalankan notebook.
 
 ---
 
-## 8.3 Keterbatasan Penelitian
+## 9.3 Keterbatasan Penelitian
 
 Penelitian ini masih memiliki beberapa keterbatasan, antara lain.
 
@@ -978,10 +1178,11 @@ Penelitian ini masih memiliki beberapa keterbatasan, antara lain.
 - Proses Fine Tuning pada EfficientNetB0 belum menghasilkan performa yang optimal.
 - Pengujian masih menggunakan dataset publik dan belum divalidasi menggunakan data klinis dari rumah sakit.
 - Sistem yang dikembangkan bersifat sebagai media pembelajaran dan belum dapat digunakan sebagai alat diagnosis medis.
+- Performa EfficientNetB0 masih belum optimal sehingga diperlukan proses fine tuning dan optimasi yang lebih lanjut.
 
 ---
 
-## 8.4 Rekomendasi Pengembangan
+## 9.4 Rekomendasi Pengembangan
 
 Beberapa rekomendasi yang dapat dilakukan pada penelitian selanjutnya adalah sebagai berikut.
 
@@ -990,32 +1191,10 @@ Beberapa rekomendasi yang dapat dilakukan pada penelitian selanjutnya adalah seb
 3. Membandingkan model dengan arsitektur Deep Learning lain, seperti EfficientNetV2, DenseNet121, ResNet50, ConvNeXt, maupun Vision Transformer (ViT).
 4. Mengembangkan sistem agar dapat mendukung proses prediksi secara real-time dengan fitur visualisasi hasil yang lebih lengkap.
 5. Melakukan validasi sistem menggunakan data klinis dan bekerja sama dengan tenaga medis sehingga aplikasi dapat dikembangkan sebagai sistem pendukung keputusan (*Decision Support System*) di bidang kesehatan.
+   
 ---
 
-## 8.3 Keterbatasan Penelitian
-
-Penelitian ini masih memiliki beberapa keterbatasan, yaitu:
-
-- Dataset yang digunakan masih berasal dari satu sumber sehingga variasi citra MRI masih terbatas.
-- Penelitian hanya menggunakan dua model Deep Learning.
-- Pengujian dilakukan pada dataset publik sehingga belum divalidasi menggunakan data rumah sakit secara langsung.
-- Belum dilakukan optimasi hyperparameter secara otomatis menggunakan metode seperti Grid Search atau Bayesian Optimization.
-
----
-
-## 8.4 Rekomendasi Pengembangan
-
-Untuk penelitian selanjutnya disarankan beberapa pengembangan berikut:
-
-1. Menggunakan dataset dengan jumlah citra yang lebih besar dan lebih beragam.
-2. Membandingkan lebih banyak arsitektur Deep Learning seperti EfficientNetV2, DenseNet121, ResNet50, Vision Transformer (ViT), dan ConvNeXt.
-3. Menggunakan teknik Hyperparameter Tuning untuk memperoleh performa model yang lebih optimal.
-4. Mengembangkan aplikasi berbasis web atau mobile sehingga dapat digunakan sebagai sistem pendukung diagnosis.
-5. Mengintegrasikan model dengan sistem rumah sakit atau aplikasi telemedicine sehingga dapat dimanfaatkan secara nyata.
-
----
-
-# 9. Referensi
+# 10. Referensi
 
 Gómez-Guzmán, M. A., Jiménez-Beristain, L., García-Guerrero, E. E., López-Bonilla, O. R., Tamayo-Pérez, U. J., Esqueda-Elizondo, J. J., Palomino-Vizcaíno, K., & Inzunza-González, E. (2023). *Classifying brain tumors on magnetic resonance imaging by using convolutional neural networks*. Electronics, 12(4), 955. https://doi.org/10.3390/electronics12040955
 
@@ -1029,7 +1208,7 @@ Islam, M. M., Talukder, M. A., Uddin, M. A., Akhter, A., & Khalid, M. (2024). *B
 
 ---
 
-# 10. Lampiran
+# 11. Lampiran
 
 ## Lampiran A – Struktur Repository
 
