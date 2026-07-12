@@ -142,6 +142,17 @@ Dataset digunakan sebagai data pelatihan (*training*), validasi (*validation*), 
 
 https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
 
+### Informasi Dataset
+
+| Informasi | Keterangan |
+|------------|------------|
+| Platform | Kaggle |
+| Jenis Data | Image Dataset |
+| Format File | JPG / JPEG / PNG |
+| Jumlah Kelas | 4 |
+| Target Klasifikasi | Glioma, Meningioma, Pituitary, No Tumor |
+| Domain | Medical Image Classification |
+
 ---
 
 ## 3.2 Deskripsi Atribut Dataset
