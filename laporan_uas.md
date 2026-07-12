@@ -1046,11 +1046,9 @@ Aplikasi dikembangkan menggunakan konsep **single page web application** dengan 
 
 Halaman Home merupakan halaman pertama yang ditampilkan ketika aplikasi dijalankan. Halaman ini berisi informasi mengenai Brain TumorAI, deskripsi proyek, serta navigasi menuju fitur-fitur utama aplikasi.
 
-> **Tambahkan Screenshot Halaman Home**
 
-```md
 ![Home](static/images/web_home.png)
-```
+
 
 ---
 
@@ -1065,11 +1063,9 @@ Fitur yang tersedia pada halaman ini meliputi:
 - Preview gambar
 - Tombol Prediksi
 
-> **Tambahkan Screenshot Halaman Prediksi**
 
-```md
 ![Prediction](static/images/web_prediction.png)
-```
+
 
 ---
 
@@ -1084,11 +1080,9 @@ Informasi yang ditampilkan meliputi:
 - Confidence Score
 - Probabilitas setiap kelas
 
-> **Tambahkan Screenshot Hasil Prediksi**
 
-```md
 ![Prediction Result](static/images/web_result.png)
-```
+
 
 ---
 
@@ -1103,11 +1097,9 @@ Informasi yang ditampilkan meliputi:
 - Recall
 - F1-Score
 
-> **Tambahkan Screenshot Halaman Perbandingan**
 
-```md
 ![Comparison](static/images/web_comparison.png)
-```
+
 
 ---
 
