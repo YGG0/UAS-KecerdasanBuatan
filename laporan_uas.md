@@ -134,20 +134,13 @@ Implementasi Artificial Intelligence pada penelitian ini memberikan beberapa man
 
 ## 3.1 Sumber Dataset
 
-Dataset yang digunakan pada penelitian ini merupakan **Brain Tumor MRI Dataset** yang diperoleh dari platform **Kaggle**. Dataset tersebut berisi kumpulan citra Magnetic Resonance Imaging (MRI) otak yang telah diberi label sesuai jenis tumor. Dataset ini banyak digunakan sebagai benchmark pada penelitian Computer Vision dan Deep Learning karena memiliki kualitas citra yang baik serta distribusi kelas yang cukup representatif.
+Dataset yang digunakan pada penelitian ini berasal dari platform Kaggle dengan nama **Brain Tumor MRI Dataset**. Dataset ini berisi kumpulan citra Magnetic Resonance Imaging (MRI) otak yang telah diberi label ke dalam empat kategori yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**.
 
-Dataset terdiri dari empat kategori utama yaitu:
+Dataset digunakan sebagai data pelatihan (*training*), validasi (*validation*), dan pengujian (*testing*) pada model Deep Learning.
 
-- **Glioma**
-- **Meningioma**
-- **Pituitary**
-- **No Tumor**
+**Sumber Dataset:**
 
-Keempat kelas tersebut digunakan sebagai target klasifikasi pada penelitian ini.
-
-> Link Dataset:
->
-> https://www.kaggle.com/
+https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
 
 ---
 
