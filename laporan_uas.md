@@ -292,9 +292,9 @@ Pada penelitian ini, EDA dilakukan menggunakan beberapa teknik visualisasi, sepe
 Distribusi jumlah data pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).Jumlah citra pada masing-masing kelas ditampilkan secara visual menggunakan diagram batang sehingga memudahkan proses identifikasi distribusi data sebelum dilakukan pelatihan model.
 
 
-```md
+
 ![Dataset Distribution](static/images/dataset_distribution.png)
-```
+
 
 ### Analisis
 
@@ -308,9 +308,9 @@ Distribusi data yang seimbang merupakan kondisi yang baik dalam proses pelatihan
 
 Selain menggunakan diagram batang, distribusi kelas juga divisualisasikan menggunakan diagram lingkaran (Pie Chart).
 
-```md
+
 ![Pie Chart](static/images/pie_chart.png)
-```
+
 
 ### Analisis
 
@@ -322,9 +322,9 @@ Diagram lingkaran menunjukkan bahwa masing-masing kelas memiliki proporsi sebesa
 
 Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
-```md
+
 ![Sample Images](static/images/sample_images.png)
-```
+
 
 ### Analisis
 
