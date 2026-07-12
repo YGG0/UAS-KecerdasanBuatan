@@ -106,10 +106,10 @@ Model terbaik kemudian diimplementasikan ke dalam aplikasi web menggunakan Flask
 
 # 📈 Hasil Evaluasi
 
-| Model | Accuracy |
-|--------|----------|
-| Custom CNN | 99% |
-| EfficientNetB0 | (Isi sesuai hasil) |
+| Model | Accuracy | Precision | Recall | F1-Score | Keterangan |
+|--------|---------:|----------:|--------:|---------:|------------|
+| Custom CNN | 76.06% | 77.39% | 76.06% | 74.38% | Model utama yang diimplementasikan pada aplikasi Flask |
+| EfficientNetB0 | 25.00% | 6.25% | 25.00% | 10.00% | Model pembanding (belum optimal) |
 
 ---
 
@@ -215,19 +215,6 @@ Website BrainTumorAI akan tampil.
 - Confidence Score
 - Probability setiap kelas
 - Deskripsi penyakit
-
----
-
-# 📸 Tampilan Website
-
-Tambahkan screenshot:
-
-- Beranda
-- Dataset
-- Training
-- Perbandingan Model
-- Halaman Prediksi
-- Hasil Prediksi
 
 ---
 
