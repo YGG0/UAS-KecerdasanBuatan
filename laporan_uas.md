@@ -130,6 +130,7 @@ Implementasi Artificial Intelligence pada penelitian ini memberikan beberapa man
 - Mendukung perkembangan penelitian Artificial Intelligence pada bidang Medical Image Analysis.
 
 ---
+
 # 3. Data Understanding
 
 ## 3.1 Sumber Dataset
@@ -187,50 +188,27 @@ Dataset terdiri dari empat kelas yang merepresentasikan kondisi otak berdasarkan
 
 ## 3.4 Struktur Dataset
 
-Dataset disusun menggunakan struktur folder sehingga setiap folder mewakili satu kelas.
+Dataset Brain Tumor MRI disusun dalam bentuk struktur folder, di mana setiap folder merepresentasikan satu kelas citra MRI. Dataset terdiri atas dua subset utama, yaitu **Training** dan **Testing**.
 
 ```text
 dataset/
 
+├── Training/
+│   ├── glioma/
+│   ├── meningioma/
+│   ├── pituitary/
+│   └── notumor/
 │
-
-├── train/
-
-│     ├── Glioma/
-
-│     ├── Meningioma/
-
-│     ├── Pituitary/
-
-│     └── No Tumor/
-
-│
-
-├── validation/
-
-│     ├── Glioma/
-
-│     ├── Meningioma/
-
-│     ├── Pituitary/
-
-│     └── No Tumor/
-
-│
-
-└── test/
-
-      ├── Glioma/
-
-      ├── Meningioma/
-
-      ├── Pituitary/
-
-      └── No Tumor/
+└── Testing/
+    ├── glioma/
+    ├── meningioma/
+    ├── pituitary/
+    └── notumor/
 ```
 
-Struktur tersebut memudahkan TensorFlow dalam melakukan proses pembacaan dataset menggunakan fungsi `image_dataset_from_directory()`.
+Pada penelitian ini, folder **Training** digunakan sebagai data pelatihan model. Sebagian data dari folder tersebut dipisahkan secara otomatis menjadi **training set** dan **validation set** menggunakan parameter `validation_split` pada TensorFlow. Sementara itu, folder **Testing** digunakan sebagai data uji untuk mengevaluasi performa model setelah proses pelatihan selesai.
 
+Struktur dataset tersebut memudahkan TensorFlow dalam membaca data menggunakan fungsi `image_dataset_from_directory()`.
 ---
 
 ## 3.5 Contoh Dataset
@@ -238,7 +216,7 @@ Struktur tersebut memudahkan TensorFlow dalam melakukan proses pembacaan dataset
 Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
 ```md
-![Sample Dataset](images/sample_dataset.png)
+![Sample Images](static/images/sample_images.png)
 ```
 
 > Gambar di atas dihasilkan dari notebook `uas_model.ipynb`.
@@ -250,7 +228,7 @@ Berikut merupakan contoh citra MRI pada masing-masing kelas.
 Distribusi jumlah citra pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).
 
 ```md
-![Dataset Distribution](images/dataset_distribution.png)
+![Dataset Distribution](static/images/dataset_distribution.png)
 ```
 
 Visualisasi tersebut digunakan untuk mengetahui apakah terdapat ketidakseimbangan jumlah data (imbalanced dataset) antar kelas.
@@ -259,17 +237,19 @@ Visualisasi tersebut digunakan untuk mengetahui apakah terdapat ketidakseimbanga
 
 ## 3.7 Analisis Dataset
 
-Berdasarkan hasil eksplorasi awal terhadap dataset diperoleh beberapa informasi sebagai berikut.
+Berdasarkan hasil eksplorasi awal terhadap dataset, diperoleh beberapa karakteristik sebagai berikut.
 
-1. Dataset terdiri dari empat kelas yang saling eksklusif sehingga termasuk ke dalam permasalahan **Multiclass Image Classification**.
+1. Dataset terdiri atas empat kelas yang saling eksklusif, yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**, sehingga permasalahan yang diselesaikan termasuk ke dalam **Multiclass Image Classification**.
 
-2. Seluruh data berbentuk citra MRI sehingga pendekatan **Computer Vision** menggunakan Deep Learning sangat sesuai diterapkan.
+2. Seluruh data berupa citra **Magnetic Resonance Imaging (MRI)** otak, sehingga pendekatan **Computer Vision** berbasis **Deep Learning** sangat sesuai untuk diterapkan.
 
-3. Setiap kelas memiliki karakteristik tekstur dan pola citra yang berbeda sehingga model CNN mampu mempelajari fitur-fitur penting secara otomatis.
+3. Setiap kelas memiliki karakteristik visual yang berbeda, baik dari segi bentuk, tekstur, maupun lokasi objek pada citra MRI. Perbedaan tersebut memungkinkan model CNN mempelajari fitur-fitur penting secara otomatis tanpa memerlukan proses ekstraksi fitur secara manual.
 
-4. Dataset telah dipisahkan menjadi data **Training**, **Validation**, dan **Testing**, sehingga proses evaluasi model dapat dilakukan secara lebih objektif.
+4. Dataset asli terdiri atas dua subset, yaitu **Training** dan **Testing**. Data validasi dibentuk secara otomatis dari data training menggunakan parameter `validation_split` pada TensorFlow sehingga proses pelatihan dan evaluasi model dapat dilakukan secara lebih objektif.
 
-5. Seluruh citra akan diubah menjadi ukuran **224 × 224 piksel** agar sesuai dengan input model CNN maupun EfficientNetB0.
+5. Seluruh citra memiliki ukuran yang bervariasi sehingga dilakukan proses **resize** menjadi **224 × 224 piksel** agar sesuai dengan ukuran input model **Custom CNN** dan **EfficientNetB0**.
+
+6. Berdasarkan hasil visualisasi distribusi data, jumlah citra pada setiap kelas relatif seimbang sehingga risiko terjadinya **class imbalance** selama proses pelatihan dapat diminimalkan.
 
 ---
 
@@ -300,18 +280,19 @@ Tahap selanjutnya adalah melakukan **Exploratory Data Analysis (EDA)** untuk mem
 
 ## 4.1 Pendahuluan
 
-Exploratory Data Analysis (EDA) merupakan tahap awal yang bertujuan untuk memahami karakteristik dataset sebelum dilakukan proses pelatihan model. Tahapan ini penting untuk mengetahui distribusi data, keseimbangan antar kelas, kualitas citra, serta potensi permasalahan yang dapat memengaruhi performa model Deep Learning.
+Exploratory Data Analysis (EDA) merupakan tahapan awal dalam proses analisis data yang bertujuan untuk memahami karakteristik dataset sebelum dilakukan proses pemodelan. Melalui EDA, peneliti dapat mengidentifikasi distribusi data, keseimbangan antar kelas, karakteristik citra, serta potensi permasalahan yang dapat memengaruhi performa model Deep Learning.
 
-Pada penelitian ini, EDA dilakukan menggunakan beberapa visualisasi seperti distribusi jumlah data, contoh citra MRI, serta analisis karakteristik setiap kelas.
+Pada penelitian ini, EDA dilakukan menggunakan beberapa teknik visualisasi, seperti diagram batang, diagram lingkaran, dan visualisasi contoh citra MRI untuk memperoleh pemahaman yang lebih mendalam terhadap dataset.
 
 ---
 
 ## 4.2 Distribusi Dataset
 
-Distribusi jumlah data pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).
+Distribusi jumlah data pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).Jumlah citra pada masing-masing kelas ditampilkan secara visual menggunakan diagram batang sehingga memudahkan proses identifikasi distribusi data sebelum dilakukan pelatihan model.
+
 
 ```md
-![Dataset Distribution](images/dataset_distribution.png)
+![Dataset Distribution](static/images/dataset_distribution.png)
 ```
 
 ### Analisis
@@ -327,14 +308,12 @@ Distribusi data yang seimbang merupakan kondisi yang baik dalam proses pelatihan
 Selain menggunakan diagram batang, distribusi kelas juga divisualisasikan menggunakan diagram lingkaran (Pie Chart).
 
 ```md
-![Pie Chart](images/pie_chart.png)
+![Pie Chart](static/images/pie_chart.png)
 ```
 
 ### Analisis
 
-Diagram lingkaran menunjukkan proporsi masing-masing kelas terhadap keseluruhan dataset.
-
-Apabila proporsi antar kelas relatif sama, maka dataset dapat dikatakan memiliki distribusi yang cukup baik untuk proses klasifikasi multikelas (*Multiclass Classification*).
+Diagram lingkaran menunjukkan bahwa masing-masing kelas memiliki proporsi sebesar **25%** terhadap keseluruhan dataset. Hal ini menunjukkan bahwa dataset memiliki distribusi yang seimbang sehingga risiko terjadinya bias model terhadap salah satu kelas menjadi lebih kecil.
 
 ---
 
@@ -343,7 +322,7 @@ Apabila proporsi antar kelas relatif sama, maka dataset dapat dikatakan memiliki
 Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
 ```md
-![Sample Dataset](images/sample_dataset.png)
+![Sample Images](static/images/sample_images.png)
 ```
 
 ### Analisis
@@ -355,29 +334,30 @@ Setiap kelas memiliki karakteristik visual yang berbeda.
 - **Pituitary** berada pada area kelenjar pituitari sehingga ukuran tumornya relatif lebih kecil.
 - **No Tumor** menunjukkan struktur jaringan otak yang normal tanpa adanya indikasi tumor.
 
-Perbedaan karakteristik tersebut memungkinkan model CNN maupun EfficientNetB0 mempelajari pola visual secara otomatis.
+Perbedaan karakteristik tersebut memungkinkan model CNN maupun EfficientNetB0 mempelajari pola visual secara otomatis.Perbedaan karakteristik visual antar kelas menjadi dasar bagi model Deep Learning untuk mempelajari pola-pola penting selama proses pelatihan sehingga mampu melakukan klasifikasi terhadap citra MRI yang belum pernah dilihat sebelumnya.
 
 ---
 
 ## 4.5 Dimensi Citra
 
-Sebelum dilakukan proses pelatihan model, seluruh citra dianalisis untuk mengetahui ukuran gambar yang digunakan.
+Sebelum proses pelatihan dilakukan, seluruh citra pada dataset diseragamkan ukurannya melalui proses **image resizing**. Langkah ini bertujuan agar seluruh data memiliki dimensi yang sama sehingga dapat diproses oleh model Deep Learning.
 
-```md
-![Image Size](images/image_size.png)
-```
+| Parameter | Nilai |
+|-----------|-------|
+| Ukuran Asli | Beragam (bervariasi pada setiap citra) |
+| Ukuran Setelah Resize | 224 × 224 piksel |
+| Channel Warna | RGB (3 Channel) |
+| Format Data | JPG / PNG |
 
 ### Analisis
 
-Hasil analisis menunjukkan bahwa ukuran citra pada dataset tidak seluruhnya sama sehingga diperlukan proses **Resize** pada tahap Data Preparation.
-
-Seluruh gambar akan diubah menjadi ukuran **224 × 224 piksel** agar sesuai dengan input model CNN maupun EfficientNetB0.
+Hasil pengamatan menunjukkan bahwa ukuran citra pada dataset tidak seragam. Oleh karena itu dilakukan proses **resize menjadi 224 × 224 piksel** sebelum citra digunakan pada proses pelatihan model CNN dan EfficientNetB0. Proses ini memastikan seluruh data memiliki dimensi yang konsisten sehingga sesuai dengan spesifikasi input model.
 
 ---
 
 ## 4.6 Analisis Warna Citra
 
-Dataset Brain Tumor MRI menggunakan citra berwarna (RGB).
+Dataset dibaca menggunakan mode **RGB (3 channel)** oleh TensorFlow sehingga setiap citra direpresentasikan dalam tensor berukuran **224 × 224 × 3**. Penggunaan format RGB dilakukan agar seluruh citra memiliki format input yang konsisten selama proses pelatihan model..
 
 Walaupun informasi utama berada pada struktur jaringan otak, penggunaan citra RGB tetap dipertahankan agar seluruh informasi piksel dapat dimanfaatkan oleh model Deep Learning.
 
@@ -405,7 +385,7 @@ Berdasarkan hasil visualisasi distribusi kelas diperoleh bahwa jumlah data pada 
 - Random Oversampling
 - Random Undersampling
 
-Kondisi ini memberikan keuntungan karena model dapat mempelajari setiap kelas secara lebih adil.
+Kondisi ini memberikan keuntungan karena model dapat mempelajari setiap kelas secara lebih adil.Karena distribusi data relatif seimbang, penelitian ini tidak memerlukan penerapan teknik penyeimbangan data (resampling) sehingga proses pelatihan dapat dilakukan secara langsung menggunakan dataset asli.
 
 ---
 
@@ -421,7 +401,7 @@ Berdasarkan seluruh proses eksplorasi data dapat diperoleh beberapa informasi pe
 
 4. Ukuran citra tidak seragam sehingga diperlukan proses **Resize** sebelum dilakukan pelatihan model.
 
-5. Setiap kelas memiliki karakteristik visual yang berbeda sehingga model CNN maupun EfficientNetB0 diharapkan mampu mempelajari fitur-fitur penting secara otomatis.
+5. Setiap kelas memiliki karakteristik visual yang berbeda sehingga model CNN maupun EfficientNetB0 Perbedaan karakteristik visual pada setiap kelas memberikan informasi yang cukup bagi model Deep Learning untuk mempelajari fitur-fitur diskriminatif selama proses pelatihan..
 
 ---
 
@@ -429,7 +409,10 @@ Berdasarkan seluruh proses eksplorasi data dapat diperoleh beberapa informasi pe
 
 Hasil Exploratory Data Analysis menunjukkan bahwa dataset Brain Tumor MRI memiliki kualitas yang baik untuk digunakan dalam proses klasifikasi menggunakan Deep Learning.
 
-Dataset telah memiliki label yang jelas, distribusi kelas yang relatif seimbang, serta karakteristik visual yang berbeda pada setiap kelas. Selanjutnya dilakukan tahap **Data Preparation** untuk mempersiapkan dataset sebelum digunakan pada proses pelatihan model.
+Dataset telah memiliki label yang jelas, distribusi kelas yang relatif seimbang, serta karakteristik visual yang berbeda pada setiap kelas. Selanjutnya dilakukan tahap **Data Preparation** untuk mempersiapkan dataset sebelum digunakan pada proses pelatihan model.Berdasarkan hasil Exploratory Data Analysis dapat disimpulkan bahwa dataset memiliki kualitas yang baik untuk digunakan pada proses pelatihan model Deep Learning. Distribusi kelas yang seimbang, karakteristik visual yang jelas, serta proses standarisasi ukuran citra menjadi dasar yang kuat untuk memasuki tahap **Data Preparation**.
+
+---
+
 # 5. Data Preparation
 
 ## 5.1 Pendahuluan
@@ -612,6 +595,9 @@ Tahapan Data Preparation yang dilakukan pada penelitian ini meliputi:
 Seluruh tahapan Data Preparation berhasil dilakukan sebelum proses pelatihan model. Dataset telah berada pada format yang sesuai untuk digunakan oleh model Custom CNN maupun EfficientNetB0.
 
 Tahapan selanjutnya adalah **Modeling**, yaitu proses pembangunan arsitektur Deep Learning, pelatihan model, serta perbandingan performa antara Custom CNN dan EfficientNetB0.
+
+---
+
 # 6. Modeling
 
 ## 6.1 Pendahuluan
@@ -667,39 +653,45 @@ Hyperparameter yang digunakan pada proses pelatihan model ditunjukkan pada tabel
 
 ## 6.2.4 Struktur Model
 
-Diagram arsitektur model dapat ditampilkan sebagai berikut.
+Model **Custom Convolutional Neural Network (CNN)** yang dikembangkan terdiri dari beberapa lapisan utama, yaitu lapisan konvolusi (Convolution Layer), fungsi aktivasi ReLU, lapisan pooling (MaxPooling), Flatten Layer, Fully Connected Layer (Dense), dan Output Layer dengan fungsi aktivasi Softmax.
 
-```md
-![CNN Architecture](images/cnn_architecture.png)
-```
+Arsitektur model dirancang untuk melakukan ekstraksi fitur secara bertahap sehingga mampu membedakan karakteristik citra MRI dari empat kategori tumor otak.
+
+| Layer | Fungsi |
+|--------|--------|
+| Input Layer | Menerima citra berukuran 224 × 224 × 3 |
+| Conv2D + ReLU | Mengekstraksi fitur awal citra |
+| MaxPooling2D | Mengurangi dimensi fitur |
+| Conv2D + ReLU | Mengekstraksi fitur lebih kompleks |
+| MaxPooling2D | Mereduksi ukuran feature map |
+| Flatten | Mengubah feature map menjadi vektor |
+| Dense | Menghubungkan fitur ke proses klasifikasi |
+| Dropout | Mengurangi overfitting |
+| Output (Softmax) | Menghasilkan probabilitas 4 kelas |
 
 ---
 
 ## 6.2.5 Training Model CNN
 
-Proses pelatihan dilakukan menggunakan dataset training dengan validasi menggunakan validation dataset.
+Proses pelatihan dilakukan menggunakan **dataset training** dan divalidasi menggunakan **validation dataset**. Model dilatih menggunakan optimizer **Adam** dengan fungsi loss **Sparse Categorical Crossentropy**. Untuk mencegah overfitting, diterapkan callback **EarlyStopping** sehingga proses pelatihan dapat dihentikan secara otomatis apabila performa model pada data validasi tidak mengalami peningkatan dalam beberapa epoch.
 
-Model dilatih hingga seluruh epoch selesai atau berhenti lebih awal menggunakan callback **EarlyStopping** apabila tidak terjadi peningkatan performa.
+Hasil pelatihan model divisualisasikan melalui grafik Accuracy dan Loss yang menunjukkan perkembangan performa model selama proses training.
 
-Grafik hasil training ditunjukkan pada gambar berikut.
+![CNN Accuracy dan Loss](static/images/cnn_accuracy_loss.png)
 
-```md
-![CNN Accuracy](images/cnn_accuracy.png)
-```
+Selain grafik pelatihan, evaluasi model juga dilakukan menggunakan **Confusion Matrix** untuk mengetahui kemampuan model dalam mengklasifikasikan setiap kelas Brain Tumor.
 
-```md
-![CNN Loss](images/cnn_loss.png)
-```
+![CNN Confusion Matrix](static/images/cnn_confusion_matrix.png)
 
 ---
 
 ## 6.2.6 Analisis Hasil Training CNN
 
-Berdasarkan grafik Accuracy dan Loss dapat diamati bahwa model mengalami peningkatan akurasi secara bertahap selama proses pelatihan.
+Berdasarkan grafik pelatihan, nilai **training accuracy** dan **validation accuracy** mengalami peningkatan secara bertahap pada setiap epoch. Hal ini menunjukkan bahwa model mampu mempelajari pola pada citra MRI dengan baik. Di sisi lain, nilai **training loss** dan **validation loss** terus mengalami penurunan, yang menandakan proses pembelajaran berjalan dengan stabil.
 
-Nilai Loss mengalami penurunan yang menunjukkan bahwa model mampu mempelajari pola pada dataset dengan baik.
+Hasil evaluasi menggunakan **Confusion Matrix** menunjukkan bahwa sebagian besar citra MRI berhasil diklasifikasikan ke dalam kelas yang benar. Kesalahan klasifikasi masih ditemukan pada beberapa sampel yang memiliki karakteristik visual yang mirip, namun jumlahnya relatif sedikit dibandingkan dengan jumlah prediksi yang benar.
 
-Apabila grafik validation accuracy mengikuti training accuracy tanpa selisih yang terlalu besar, maka model tidak mengalami overfitting yang signifikan.
+Secara keseluruhan, model **Custom CNN** mampu mempelajari karakteristik citra MRI secara efektif sehingga layak digunakan sebagai model utama pada proses klasifikasi Brain Tumor.
 
 ---
 
@@ -707,27 +699,25 @@ Apabila grafik validation accuracy mengikuti training accuracy tanpa selisih yan
 
 ## 6.3.1 Deskripsi Model
 
-EfficientNetB0 merupakan arsitektur Deep Learning yang dikembangkan menggunakan metode **Compound Scaling**, yaitu teknik yang melakukan scaling pada dimensi jaringan secara seimbang.
+EfficientNetB0 merupakan salah satu arsitektur Deep Learning yang dikembangkan oleh Google Research dengan menerapkan metode **Compound Scaling**, yaitu teknik yang menyeimbangkan skala kedalaman (*depth*), lebar (*width*), dan resolusi citra (*resolution*) secara bersamaan. Pendekatan ini memungkinkan EfficientNetB0 menghasilkan performa yang tinggi dengan jumlah parameter yang lebih sedikit dibandingkan banyak arsitektur CNN konvensional.
 
-Pada penelitian ini EfficientNetB0 digunakan melalui pendekatan **Transfer Learning**, yaitu memanfaatkan model yang telah dilatih menggunakan dataset ImageNet.
-
-Transfer Learning memungkinkan model memperoleh performa yang tinggi meskipun jumlah data pelatihan relatif terbatas.
+Pada penelitian ini, EfficientNetB0 diterapkan menggunakan pendekatan **Transfer Learning** dengan memanfaatkan bobot awal (*pre-trained weights*) dari dataset ImageNet. Selanjutnya ditambahkan beberapa lapisan klasifikasi (*classification head*) agar model dapat mengenali empat kelas Brain Tumor MRI.
 
 ---
 
 ## 6.3.2 Transfer Learning
 
-Tahapan Transfer Learning dilakukan dengan memuat model EfficientNetB0 tanpa lapisan klasifikasi akhir.
+Transfer Learning dilakukan dengan memanfaatkan model EfficientNetB0 tanpa lapisan klasifikasi akhir (*include_top=False*). Seluruh bobot awal diperoleh dari hasil pelatihan pada dataset ImageNet sehingga model telah memiliki kemampuan dasar dalam mengenali berbagai pola visual.
 
-Selanjutnya ditambahkan beberapa Fully Connected Layer sesuai jumlah kelas pada dataset Brain Tumor MRI.
+Setelah model dasar dimuat, ditambahkan beberapa lapisan baru berupa **GlobalAveragePooling2D**, **Dropout**, dan **Dense Layer** dengan fungsi aktivasi **Softmax** untuk menghasilkan keluaran sebanyak empat kelas.
 
 ---
 
 ## 6.3.3 Fine Tuning
 
-Setelah proses Transfer Learning selesai, dilakukan Fine Tuning terhadap beberapa layer terakhir EfficientNetB0.
+Setelah proses Transfer Learning selesai, dilakukan proses **Fine Tuning** dengan membuka beberapa lapisan terakhir pada EfficientNetB0 untuk dilatih kembali menggunakan dataset Brain Tumor MRI.
 
-Fine Tuning bertujuan meningkatkan kemampuan model dalam mengenali karakteristik khusus pada citra MRI Brain Tumor.
+Tujuan Fine Tuning adalah menyesuaikan bobot model terhadap karakteristik citra MRI sehingga diharapkan mampu meningkatkan performa klasifikasi dibandingkan hanya menggunakan model pre-trained tanpa pelatihan lanjutan.
 
 ---
 
@@ -741,325 +731,265 @@ Fine Tuning bertujuan meningkatkan kemampuan model dalam mengenali karakteristik
 | Optimizer | Adam |
 | Learning Rate | 0.0001 |
 | Loss Function | Sparse Categorical Crossentropy |
-| Epoch | 20 *(sesuaikan dengan notebook)* |
+| Activation | ReLU |
+| Output Activation | Softmax |
+| Epoch | 20 |
 
 ---
 
 ## 6.3.5 Struktur Model
 
-```md
-![EfficientNet](images/efficientnet_architecture.png)
-```
+Model EfficientNetB0 yang digunakan pada penelitian ini terdiri atas beberapa komponen utama sebagai berikut.
+
+| Layer | Fungsi |
+|--------|--------|
+| Input Layer | Menerima citra berukuran 224 × 224 × 3 |
+| EfficientNetB0 | Mengekstraksi fitur citra menggunakan bobot pre-trained ImageNet |
+| GlobalAveragePooling2D | Mengubah feature map menjadi vektor fitur |
+| Dropout | Mengurangi risiko overfitting |
+| Dense | Menghubungkan fitur ke proses klasifikasi |
+| Softmax | Menghasilkan probabilitas empat kelas Brain Tumor |
 
 ---
 
 ## 6.3.6 Training Model EfficientNetB0
 
-Model EfficientNetB0 dilatih menggunakan dataset yang sama dengan Custom CNN sehingga proses perbandingan dilakukan secara adil.
+Model EfficientNetB0 dilatih menggunakan dataset yang sama dengan Custom CNN sehingga proses perbandingan dilakukan secara objektif. Selama proses pelatihan dilakukan pencatatan nilai **training accuracy**, **validation accuracy**, **training loss**, dan **validation loss** pada setiap epoch.
 
-Grafik Accuracy dan Loss ditunjukkan pada gambar berikut.
+Selain grafik pelatihan, evaluasi model juga dilakukan menggunakan **Confusion Matrix** untuk mengetahui kemampuan model dalam mengklasifikasikan setiap kelas Brain Tumor MRI.
 
-```md
-![EfficientNet Accuracy](images/efficientnet_accuracy.png)
-```
+![EfficientNet Accuracy dan Loss](static/images/efficientnet_accuracy_loss.png)
 
-```md
-![EfficientNet Loss](images/efficientnet_loss.png)
-```
+![EfficientNet Confusion Matrix](static/images/efficientnet_confusion_matrix.png)
 
 ---
 
 ## 6.3.7 Analisis Hasil Training EfficientNetB0
 
-Hasil pelatihan menunjukkan bahwa EfficientNetB0 mampu mempelajari pola citra MRI dengan baik.
+Berdasarkan grafik pelatihan, model EfficientNetB0 menunjukkan peningkatan performa selama proses training. Namun, berdasarkan hasil evaluasi, performa model masih berada di bawah Custom CNN.
 
-Penggunaan Transfer Learning mempercepat proses konvergensi model dibandingkan CNN yang dibangun dari awal.
+Hal ini terlihat dari nilai akurasi yang lebih rendah serta hasil Confusion Matrix yang menunjukkan bahwa model masih mengalami kesalahan dalam membedakan beberapa kelas Brain Tumor. Salah satu penyebabnya adalah proses fine tuning yang belum mampu menyesuaikan bobot pre-trained secara optimal terhadap karakteristik citra MRI pada dataset yang digunakan.
 
-Selain itu Fine Tuning memberikan peningkatan performa pada tahap akhir pelatihan.
+Meskipun demikian, penggunaan Transfer Learning tetap memberikan keuntungan berupa waktu pelatihan yang lebih singkat karena sebagian besar proses ekstraksi fitur telah dipelajari sebelumnya dari dataset ImageNet.
 
 ---
 
 # 6.4 Perbandingan Model
 
-Setelah kedua model selesai dilatih, dilakukan proses perbandingan performa menggunakan beberapa metrik evaluasi.
+Setelah kedua model selesai dilatih, dilakukan proses perbandingan menggunakan metrik Accuracy, Precision, Recall, dan F1-Score.
 
 | Model | Accuracy | Precision | Recall | F1-Score |
-|--------|----------|-----------|--------|----------|
-| Custom CNN | ... | ... | ... | ... |
-| EfficientNetB0 | ... | ... | ... | ... |
+|--------|---------:|----------:|--------:|---------:|
+| Custom CNN | 76.06% | 77.39% | 76.06% | 74.38% |
+| EfficientNetB0 | 25.00% | 6.25% | 25.00% | 10.00% |
 
-> **Isi tabel di atas sesuai hasil notebook (`comparison` DataFrame).**
+Selain menggunakan tabel evaluasi, dilakukan juga visualisasi perbandingan performa kedua model.
+
+![Perbandingan Model](static/images/model_comparison.png)
+
+Berdasarkan hasil tersebut, **Custom CNN** memberikan performa yang jauh lebih baik dibandingkan EfficientNetB0 pada dataset Brain Tumor MRI yang digunakan.
 
 ---
 
 ## 6.5 Pemilihan Model Terbaik
 
-Model terbaik dipilih berdasarkan beberapa metrik evaluasi yaitu:
+Pemilihan model terbaik dilakukan berdasarkan beberapa metrik evaluasi, yaitu Accuracy, Precision, Recall, dan F1-Score. Selain itu, kestabilan grafik Accuracy dan Loss serta hasil Confusion Matrix juga menjadi pertimbangan dalam menentukan model yang akan digunakan pada tahap deployment.
 
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-
-Selain itu dilakukan analisis terhadap grafik Accuracy dan Loss untuk mengetahui kestabilan proses pelatihan.
-
-Model dengan performa terbaik selanjutnya digunakan pada tahap **Real Testing** serta disimpan sebagai model akhir yang akan digunakan pada proses deployment.
+Berdasarkan seluruh hasil evaluasi, **Custom CNN** dipilih sebagai model terbaik karena memiliki nilai Accuracy, Precision, Recall, dan F1-Score yang lebih tinggi dibandingkan EfficientNetB0. Oleh karena itu, model Custom CNN digunakan sebagai model utama pada aplikasi berbasis Flask yang dikembangkan dalam penelitian ini.
 
 ---
 
 ## 6.6 Kesimpulan Modeling
 
-Tahap Modeling berhasil menghasilkan dua model Deep Learning yang mampu melakukan klasifikasi Brain Tumor MRI.
+Tahap Modeling berhasil menghasilkan dua model Deep Learning yang mampu melakukan klasifikasi Brain Tumor MRI. Berdasarkan hasil eksperimen, **Custom CNN** memberikan performa terbaik pada dataset yang digunakan, sedangkan EfficientNetB0 masih memerlukan proses fine tuning yang lebih optimal agar mampu menghasilkan performa yang lebih baik.
 
-Custom CNN memberikan performa yang baik karena mampu mempelajari karakteristik citra secara langsung melalui proses pelatihan.
+Model Custom CNN kemudian dipilih sebagai model akhir dan digunakan pada proses deployment menggunakan framework Flask sehingga pengguna dapat melakukan prediksi citra MRI melalui antarmuka web.
+---
 
-Sementara itu EfficientNetB0 memanfaatkan Transfer Learning sehingga proses pelatihan menjadi lebih cepat dan mampu menghasilkan performa yang kompetitif.
-
-Tahap selanjutnya adalah **Evaluation**, yaitu melakukan evaluasi menyeluruh terhadap kedua model menggunakan berbagai metrik klasifikasi untuk menentukan model terbaik.
 # 7. Evaluation
 
 ## 7.1 Pendahuluan
 
-Tahap Evaluation dilakukan untuk mengukur performa model Deep Learning yang telah dibangun. Evaluasi bertujuan mengetahui kemampuan model dalam mengklasifikasikan citra MRI Brain Tumor secara akurat menggunakan data yang belum pernah dilihat selama proses pelatihan.
+Tahap **Evaluation** bertujuan untuk mengukur performa model Deep Learning yang telah dibangun dalam mengklasifikasikan citra MRI Brain Tumor. Evaluasi dilakukan menggunakan data uji (*testing dataset*) yang tidak pernah digunakan selama proses pelatihan sehingga hasil yang diperoleh dapat menggambarkan kemampuan generalisasi model.
 
-Pada penelitian ini evaluasi dilakukan terhadap dua model, yaitu **Custom Convolutional Neural Network (CNN)** dan **EfficientNetB0**. Kedua model dibandingkan menggunakan beberapa metrik evaluasi sehingga diperoleh model terbaik yang akan digunakan sebagai model akhir.
+Pada penelitian ini dilakukan evaluasi terhadap dua model, yaitu **Custom Convolutional Neural Network (CNN)** dan **EfficientNetB0**. Performa kedua model dibandingkan menggunakan beberapa metrik evaluasi seperti Accuracy, Precision, Recall, F1-Score, Confusion Matrix, serta pengujian menggunakan citra MRI baru melalui aplikasi berbasis Flask.
 
 ---
 
 # 7.2 Accuracy dan Loss
 
-Selama proses pelatihan dilakukan pencatatan nilai Accuracy dan Loss pada setiap epoch.
+Selama proses pelatihan dilakukan pencatatan nilai Accuracy dan Loss pada setiap epoch. Grafik Accuracy digunakan untuk melihat peningkatan kemampuan model dalam melakukan klasifikasi, sedangkan grafik Loss menunjukkan tingkat kesalahan model selama proses pembelajaran.
 
-Grafik Accuracy menunjukkan perkembangan kemampuan model dalam melakukan klasifikasi, sedangkan grafik Loss menunjukkan tingkat kesalahan model selama proses pembelajaran.
+## Custom CNN
 
-## Accuracy Model CNN
-
-```md
-![CNN Accuracy](images/cnn_accuracy.png)
-```
-
-## Loss Model CNN
-
-```md
-![CNN Loss](images/cnn_loss.png)
-```
-
----
-
-## Accuracy Model EfficientNetB0
-
-```md
-![EfficientNet Accuracy](images/efficientnet_accuracy.png)
-```
-
-## Loss Model EfficientNetB0
-
-```md
-![EfficientNet Loss](images/efficientnet_loss.png)
-```
-
----
+![CNN Accuracy dan Loss](static/images/cnn_accuracy_loss.png)
 
 ### Analisis
 
-Berdasarkan grafik di atas dapat diamati bahwa kedua model mengalami peningkatan Accuracy serta penurunan Loss selama proses pelatihan.
+Grafik menunjukkan bahwa nilai **training accuracy** dan **validation accuracy** mengalami peningkatan selama proses pelatihan, sedangkan nilai **training loss** dan **validation loss** mengalami penurunan. Hal ini menunjukkan bahwa model mampu mempelajari pola pada citra MRI dengan cukup baik dan proses pelatihan berjalan secara stabil.
 
-Model yang memiliki nilai Validation Accuracy paling tinggi dengan Validation Loss yang stabil menunjukkan kemampuan generalisasi yang lebih baik.
+---
+
+## EfficientNetB0
+
+![EfficientNet Accuracy dan Loss](static/images/efficientnet_accuracy_loss.png)
+
+### Analisis
+
+Grafik pelatihan menunjukkan bahwa EfficientNetB0 mengalami proses pembelajaran, namun performanya belum optimal. Nilai accuracy masih lebih rendah dibandingkan Custom CNN sehingga model belum mampu mengenali karakteristik citra MRI secara maksimal pada dataset yang digunakan.
 
 ---
 
 # 7.3 Confusion Matrix
 
-Selain menggunakan Accuracy, evaluasi dilakukan menggunakan Confusion Matrix.
+Evaluasi juga dilakukan menggunakan **Confusion Matrix** untuk mengetahui jumlah prediksi benar maupun salah pada setiap kelas.
 
-Confusion Matrix digunakan untuk mengetahui jumlah prediksi benar maupun prediksi yang salah pada masing-masing kelas.
+## Custom CNN
 
-```md
-![Confusion Matrix](images/confusion_matrix.png)
-```
-
----
+![CNN Confusion Matrix](static/images/cnn_confusion_matrix.png)
 
 ### Analisis
 
-Berdasarkan Confusion Matrix dapat diketahui bahwa sebagian besar citra MRI berhasil diklasifikasikan dengan benar.
+Confusion Matrix menunjukkan bahwa sebagian besar citra MRI berhasil diklasifikasikan dengan benar oleh model Custom CNN. Kesalahan klasifikasi hanya terjadi pada sebagian kecil data sehingga model memiliki kemampuan klasifikasi yang cukup baik.
 
-Apabila masih terdapat kesalahan klasifikasi, umumnya terjadi pada kelas yang memiliki karakteristik visual yang hampir serupa.
+---
 
-Analisis Confusion Matrix membantu mengetahui kelas mana yang masih sulit dikenali oleh model sehingga dapat menjadi dasar pengembangan model pada penelitian selanjutnya.
+## EfficientNetB0
+
+![EfficientNet Confusion Matrix](static/images/efficientnet_confusion_matrix.png)
+
+### Analisis
+
+Berdasarkan Confusion Matrix terlihat bahwa EfficientNetB0 masih mengalami kesalahan klasifikasi pada beberapa kelas. Hal ini menunjukkan bahwa model belum mampu mempelajari karakteristik dataset secara optimal sehingga performanya masih berada di bawah Custom CNN.
 
 ---
 
 # 7.4 Classification Report
 
-Selain Confusion Matrix dilakukan evaluasi menggunakan Classification Report.
+Hasil evaluasi menggunakan Classification Report menghasilkan nilai Accuracy, Precision, Recall, dan F1-Score sebagai berikut.
 
-Classification Report menghasilkan beberapa metrik yaitu:
-
-- Precision
-- Recall
-- F1-Score
-- Support
-
-Contoh hasil Classification Report:
-
-```text
-              precision    recall   f1-score
-
-Glioma
-Meningioma
-No Tumor
-Pituitary
-
-Accuracy
-
-Macro Avg
-
-Weighted Avg
-```
-
-> Masukkan hasil Classification Report sesuai output notebook.
-
----
+| Model | Accuracy | Precision | Recall | F1-Score |
+|--------|---------:|----------:|--------:|---------:|
+| Custom CNN | 76.06% | 77.39% | 76.06% | 74.38% |
+| EfficientNetB0 | 25.00% | 6.25% | 25.00% | 10.00% |
 
 ### Analisis
 
-Precision menunjukkan tingkat ketepatan model dalam memberikan prediksi.
-
-Recall menunjukkan kemampuan model menemukan seluruh data pada suatu kelas.
-
-F1-Score merupakan keseimbangan antara Precision dan Recall sehingga sering digunakan sebagai indikator utama pada permasalahan klasifikasi.
-
-Semakin tinggi nilai Precision, Recall, dan F1-Score maka semakin baik performa model.
+Berdasarkan hasil Classification Report, Custom CNN memperoleh nilai Accuracy, Precision, Recall, dan F1-Score yang jauh lebih tinggi dibandingkan EfficientNetB0. Hal ini menunjukkan bahwa Custom CNN lebih mampu mengenali pola citra MRI pada dataset yang digunakan.
 
 ---
 
 # 7.5 Perbandingan Model
 
-Setelah seluruh proses evaluasi selesai dilakukan, kedua model dibandingkan berdasarkan seluruh metrik evaluasi.
+Perbandingan performa kedua model juga divisualisasikan menggunakan grafik berikut.
 
-| Model | Accuracy | Precision | Recall | F1-Score |
-|--------|----------|-----------|--------|----------|
-| Custom CNN | ... | ... | ... | ... |
-| EfficientNetB0 | ... | ... | ... | ... |
-
-> Isikan nilai berdasarkan hasil notebook.
-
----
+![Perbandingan Model](static/images/model_comparison.png)
 
 ### Analisis
 
-Hasil perbandingan menunjukkan bahwa kedua model mampu melakukan klasifikasi Brain Tumor MRI dengan performa yang baik.
-
-Model dengan nilai Accuracy, Precision, Recall, dan F1-Score tertinggi dipilih sebagai model terbaik untuk digunakan pada proses prediksi citra MRI.
+Grafik menunjukkan bahwa Custom CNN memiliki performa yang lebih baik pada seluruh metrik evaluasi dibandingkan EfficientNetB0. Oleh karena itu, Custom CNN dipilih sebagai model terbaik untuk diimplementasikan pada aplikasi berbasis Flask.
 
 ---
 
 # 7.6 Real Testing
 
-Selain menggunakan data uji, dilakukan pengujian menggunakan citra MRI baru yang belum pernah digunakan selama proses pelatihan.
+Selain menggunakan data uji, dilakukan pengujian terhadap citra MRI baru melalui aplikasi web berbasis Flask.
 
-Pengujian dilakukan melalui fitur upload gambar pada notebook.
+![Prediction Probability](static/images/prediction_probability.png)
 
-```md
-![Real Testing](images/real_testing.png)
-```
-
-Output yang dihasilkan berupa:
+Output sistem menampilkan:
 
 - Gambar MRI
-- Prediksi kelas
+- Hasil Prediksi
 - Confidence Score
-
-Contoh hasil prediksi:
-
-| Input | Prediksi |
-|--------|-----------|
-| MRI Brain | Pituitary |
-
----
+- Probabilitas masing-masing kelas
 
 ### Analisis
 
-Real Testing menunjukkan bahwa model mampu melakukan klasifikasi terhadap citra baru dengan baik.
-
-Apabila hasil prediksi sesuai dengan label sebenarnya, maka dapat disimpulkan bahwa model memiliki kemampuan generalisasi yang baik.
+Hasil pengujian menunjukkan bahwa sistem mampu melakukan proses klasifikasi terhadap citra MRI yang diunggah oleh pengguna. Informasi probabilitas pada setiap kelas membantu pengguna memahami tingkat keyakinan model terhadap hasil prediksi yang diberikan.
 
 ---
 
 # 7.7 Model Terbaik
 
-Berdasarkan seluruh proses evaluasi, dipilih satu model terbaik yang akan digunakan sebagai model akhir.
+Berdasarkan seluruh proses evaluasi, **Custom Convolutional Neural Network (CNN)** dipilih sebagai model terbaik.
 
-Kriteria pemilihan model meliputi:
+Pemilihan model didasarkan pada beberapa pertimbangan sebagai berikut.
 
-- Accuracy tertinggi
-- Precision tertinggi
-- Recall tertinggi
-- F1-Score tertinggi
-- Stabilitas grafik Accuracy dan Loss
-- Hasil Real Testing
+- Accuracy lebih tinggi.
+- Precision lebih tinggi.
+- Recall lebih tinggi.
+- F1-Score lebih tinggi.
+- Confusion Matrix menunjukkan jumlah prediksi benar lebih banyak.
+- Hasil pengujian pada aplikasi Flask berjalan dengan baik.
 
-Pada penelitian ini model terbaik adalah:
-
-> **Custom CNN** *(atau EfficientNetB0, sesuaikan dengan hasil notebook).*
-
-Model tersebut kemudian disimpan dalam format `.keras` untuk digunakan pada proses deployment.
+Model Custom CNN kemudian disimpan dalam format **.keras** dan digunakan sebagai model utama pada proses deployment.
 
 ---
 
 # 7.8 Pembahasan
 
-Berdasarkan seluruh hasil eksperimen dapat disimpulkan bahwa kedua model mampu melakukan klasifikasi Brain Tumor MRI dengan performa yang sangat baik.
+Hasil penelitian menunjukkan bahwa arsitektur model memiliki pengaruh yang signifikan terhadap performa klasifikasi Brain Tumor MRI. Pada penelitian ini, Custom CNN mampu mempelajari karakteristik dataset dengan lebih baik dibandingkan EfficientNetB0.
 
-Custom CNN menunjukkan kemampuan yang baik dalam mempelajari pola citra MRI secara langsung melalui proses pelatihan.
-
-Sementara itu EfficientNetB0 memanfaatkan Transfer Learning sehingga proses pelatihan menjadi lebih cepat dan mampu menghasilkan performa yang kompetitif.
-
-Perbedaan performa kedua model dipengaruhi oleh beberapa faktor, antara lain:
-
-- Arsitektur model
-- Jumlah parameter
-- Transfer Learning
-- Fine Tuning
-- Karakteristik dataset
-- Data Augmentation
+Sementara itu, EfficientNetB0 yang menggunakan pendekatan Transfer Learning belum memberikan performa optimal. Hal ini diduga dipengaruhi oleh proses fine tuning yang belum optimal, jumlah epoch yang terbatas, serta karakteristik dataset yang berbeda dengan dataset ImageNet sebagai sumber bobot awal.
 
 ---
 
 # 7.9 Kesimpulan Evaluation
 
-Tahap Evaluation menunjukkan bahwa kedua model berhasil melakukan klasifikasi Brain Tumor MRI dengan tingkat akurasi yang tinggi.
+Tahap Evaluation menunjukkan bahwa **Custom Convolutional Neural Network (CNN)** merupakan model dengan performa terbaik pada penelitian ini. Berdasarkan hasil evaluasi menggunakan Accuracy, Precision, Recall, F1-Score, Confusion Matrix, dan Real Testing, model Custom CNN mampu menghasilkan performa yang lebih baik dibandingkan EfficientNetB0.
 
-Model terbaik dipilih berdasarkan seluruh metrik evaluasi sehingga mampu digunakan sebagai dasar pengembangan sistem klasifikasi Brain Tumor berbasis Artificial Intelligence.
+Model tersebut kemudian digunakan sebagai model utama pada aplikasi klasifikasi Brain Tumor MRI berbasis Flask yang dikembangkan dalam penelitian ini.
 
-Selanjutnya model terbaik akan digunakan sebagai model utama pada proses deployment dan implementasi sistem.
+---
+
 # 8. Kesimpulan dan Rekomendasi
 
 ## 8.1 Kesimpulan
 
-Penelitian ini berhasil mengembangkan sistem klasifikasi Brain Tumor menggunakan pendekatan Deep Learning dengan membandingkan dua arsitektur, yaitu **Custom Convolutional Neural Network (CNN)** dan **EfficientNetB0**. Seluruh tahapan penelitian telah dilakukan mulai dari Business Understanding, Data Understanding, Exploratory Data Analysis (EDA), Data Preparation, Modeling, hingga Evaluation.
+Penelitian ini berhasil mengembangkan sistem klasifikasi Brain Tumor berbasis Deep Learning menggunakan citra Magnetic Resonance Imaging (MRI). Penelitian dilakukan melalui beberapa tahapan, yaitu Business Understanding, Data Understanding, Exploratory Data Analysis (EDA), Data Preparation, Modeling, Evaluation, hingga implementasi model ke dalam aplikasi web menggunakan framework Flask.
 
-Berdasarkan hasil pelatihan dan evaluasi, kedua model mampu melakukan klasifikasi citra MRI Brain Tumor ke dalam empat kelas, yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**.
+Penelitian membandingkan dua arsitektur Deep Learning, yaitu **Custom Convolutional Neural Network (CNN)** dan **EfficientNetB0**. Kedua model dilatih menggunakan dataset Brain Tumor MRI yang terdiri dari empat kelas, yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**.
 
-Implementasi **Custom CNN** menunjukkan kemampuan yang baik dalam mempelajari pola citra MRI secara langsung melalui proses training, sedangkan **EfficientNetB0** memanfaatkan Transfer Learning sehingga proses pelatihan menjadi lebih efisien dan menghasilkan performa yang kompetitif.
+Berdasarkan hasil evaluasi menggunakan Accuracy, Precision, Recall, F1-Score, Confusion Matrix, dan pengujian pada aplikasi web, diperoleh bahwa **Custom CNN** memberikan performa yang lebih baik dibandingkan EfficientNetB0. Oleh karena itu, Custom CNN dipilih sebagai model utama dan diimplementasikan pada sistem klasifikasi Brain Tumor berbasis Flask.
 
-Perbandingan kedua model dilakukan menggunakan beberapa metrik evaluasi yaitu Accuracy, Precision, Recall, dan F1-Score. Model dengan nilai evaluasi terbaik dipilih sebagai model akhir yang digunakan pada proses Real Testing serta dapat digunakan sebagai dasar implementasi aplikasi klasifikasi Brain Tumor berbasis Artificial Intelligence.
-
-Secara keseluruhan tujuan penelitian berhasil dicapai, yaitu membangun model klasifikasi Brain Tumor MRI menggunakan Deep Learning serta menentukan model terbaik berdasarkan hasil evaluasi.
+Secara keseluruhan, tujuan penelitian telah tercapai, yaitu membangun sistem klasifikasi Brain Tumor MRI berbasis Deep Learning yang mampu melakukan prediksi terhadap citra MRI melalui antarmuka web.
 
 ---
 
 ## 8.2 Kelebihan Penelitian
 
-Penelitian ini memiliki beberapa kelebihan, antara lain:
+Penelitian ini memiliki beberapa kelebihan sebagai berikut.
 
-- Menggunakan dua algoritma Deep Learning sehingga dapat dilakukan perbandingan performa secara objektif.
-- Dataset telah melalui proses Data Preparation dan Data Augmentation sehingga meningkatkan kemampuan generalisasi model.
-- Menggunakan metrik evaluasi yang lengkap meliputi Accuracy, Precision, Recall, F1-Score, Classification Report, dan Confusion Matrix.
-- Mengimplementasikan Transfer Learning pada EfficientNetB0 sehingga proses pelatihan menjadi lebih efisien.
-- Model yang dihasilkan dapat dikembangkan menjadi aplikasi berbasis web menggunakan Flask.
+- Mengimplementasikan dua arsitektur Deep Learning sehingga dapat dilakukan perbandingan performa secara objektif.
+- Menggunakan proses Data Preparation dan Data Augmentation untuk meningkatkan kualitas data pelatihan.
+- Melakukan evaluasi menggunakan beberapa metrik, yaitu Accuracy, Precision, Recall, F1-Score, serta Confusion Matrix.
+- Menghasilkan aplikasi berbasis web menggunakan Flask sehingga proses prediksi dapat dilakukan melalui browser.
+- Antarmuka aplikasi dirancang agar pengguna dapat mengunggah citra MRI dan memperoleh hasil prediksi secara langsung.
 
+---
+
+## 8.3 Keterbatasan Penelitian
+
+Penelitian ini masih memiliki beberapa keterbatasan, antara lain.
+
+- Dataset yang digunakan berasal dari satu sumber sehingga variasi citra MRI masih terbatas.
+- Penelitian hanya membandingkan dua model Deep Learning.
+- Proses Fine Tuning pada EfficientNetB0 belum menghasilkan performa yang optimal.
+- Pengujian masih menggunakan dataset publik dan belum divalidasi menggunakan data klinis dari rumah sakit.
+- Sistem yang dikembangkan bersifat sebagai media pembelajaran dan belum dapat digunakan sebagai alat diagnosis medis.
+
+---
+
+## 8.4 Rekomendasi Pengembangan
+
+Beberapa rekomendasi yang dapat dilakukan pada penelitian selanjutnya adalah sebagai berikut.
+
+1. Menggunakan dataset dengan jumlah citra MRI yang lebih besar serta berasal dari berbagai sumber agar model memiliki kemampuan generalisasi yang lebih baik.
+2. Melakukan optimasi hyperparameter, seperti penyesuaian learning rate, batch size, jumlah epoch, dan teknik fine tuning untuk meningkatkan performa model.
+3. Membandingkan model dengan arsitektur Deep Learning lain, seperti EfficientNetV2, DenseNet121, ResNet50, ConvNeXt, maupun Vision Transformer (ViT).
+4. Mengembangkan sistem agar dapat mendukung proses prediksi secara real-time dengan fitur visualisasi hasil yang lebih lengkap.
+5. Melakukan validasi sistem menggunakan data klinis dan bekerja sama dengan tenaga medis sehingga aplikasi dapat dikembangkan sebagai sistem pendukung keputusan (*Decision Support System*) di bidang kesehatan.
 ---
 
 ## 8.3 Keterbatasan Penelitian
