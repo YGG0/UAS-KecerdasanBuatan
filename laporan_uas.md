@@ -216,9 +216,9 @@ Struktur dataset tersebut memudahkan TensorFlow dalam membaca data menggunakan f
 
 Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
-```
+
 ![Sample Images](static/images/sample_images.png)
-```
+
 
 > Gambar di atas dihasilkan dari notebook `uas_model.ipynb`.
 
@@ -228,9 +228,9 @@ Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
 Distribusi jumlah citra pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).
 
-```
+
 ![Dataset Distribution](static/images/dataset_distribution.png)
-```
+
 
 Visualisasi tersebut digunakan untuk mengetahui apakah terdapat ketidakseimbangan jumlah data (imbalanced dataset) antar kelas.
 
