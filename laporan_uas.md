@@ -1205,67 +1205,28 @@ Islam, M. M., Talukder, M. A., Uddin, M. A., Akhter, A., & Khalid, M. (2024). *B
 ## Lampiran A – Struktur Repository
 
 ```text
-Brain-Tumor-MRI-Classification/
-
+UAS-KecerdasanBuatan/
 │
-
 ├── README.md
-
-├── laporan_uas.md
-
+├── Laporan_UAS.md
 ├── uas_model.ipynb
-
 ├── requirements.txt
-
+├── app.py
+├── brain_tumor_model.keras
+├── class_names.json
 │
-
-├── images/
-
-│     ├── sample_dataset.png
-
-│     ├── dataset_distribution.png
-
-│     ├── pie_chart.png
-
-│     ├── cnn_accuracy.png
-
-│     ├── cnn_loss.png
-
-│     ├── efficientnet_accuracy.png
-
-│     ├── efficientnet_loss.png
-
-│     ├── confusion_matrix.png
-
-│     ├── comparison.png
-
-│     └── real_testing.png
-
+├── templates/
+│   └── index.html
 │
-
-├── model/
-
-│     ├── brain_tumor_model.keras
-
-│     └── class_names.json
-
+├── static/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── uploads/
 │
-
-├── references/
-
-│     ├── jurnal1.pdf
-
-│     ├── jurnal2.pdf
-
-│     ├── jurnal3.pdf
-
-│     ├── jurnal4.pdf
-
-│     └── jurnal5.pdf
-
-│
-
-└── LICENSE
+└── data/
+    ├── dataset/
+    └── Jurnal/
 ```
 
 ---
@@ -1276,9 +1237,9 @@ Brain-Tumor-MRI-Classification/
 
 | Komponen | Spesifikasi |
 |----------|-------------|
-| Processor | Intel Core i5 / AMD Ryzen 5 atau setara |
-| RAM | Minimal 8 GB |
-| Storage | SSD 256 GB |
+| Processor | Intel Core i7 - 11800H |
+| RAM | 16(x1) |
+| Storage | SSD 512 GB |
 | GPU | NVIDIA T4 (Google Colab) |
 
 ### Software
@@ -1297,35 +1258,89 @@ Brain-Tumor-MRI-Classification/
 
 ```text
 Business Understanding
-          │
-          ▼
+        │
+        ▼
 Data Understanding
-          │
-          ▼
-Exploratory Data Analysis
-          │
-          ▼
+        │
+        ▼
+Exploratory Data Analysis (EDA)
+        │
+        ▼
 Data Preparation
-          │
-          ▼
+        │
+        ▼
 Modeling
-     │         │
-     ▼         ▼
-Custom CNN   EfficientNetB0
-     │         │
+   │           │
+   ▼           ▼
+Custom CNN  EfficientNetB0
+   │           │
+   ▼           ▼
+Evaluation Evaluation
      └────┬────┘
           ▼
-Model Comparison
+ Model Comparison
+          │
           ▼
-Evaluation
+ Best Model Selection
+          │
           ▼
-Real Testing
+ Real Testing
+          │
           ▼
-Deployment
+ Deployment (Flask)
 ```
 
 ---
 
 ## Lampiran D – Hasil Notebook
 
-Seluruh grafik, tabel evaluasi, confusion matrix, classification report, dan hasil real testing yang digunakan pada laporan ini dihasilkan secara langsung dari notebook **`uas_model.ipynb`**. Dengan demikian, isi laporan konsisten dengan implementasi yang terdapat pada repository GitHub.
+Seluruh proses eksperimen pada penelitian ini dilakukan menggunakan notebook **`uas_model.ipynb`**.
+
+Notebook tersebut mencakup seluruh tahapan penelitian, mulai dari:
+
+- Data Loading
+- Exploratory Data Analysis (EDA)
+- Data Preparation
+- Pembangunan model Custom CNN
+- Pembangunan model EfficientNetB0
+- Training kedua model
+- Evaluasi model
+- Perbandingan performa model
+- Real Testing menggunakan citra MRI baru
+- Penyimpanan model terbaik (`brain_tumor_model.keras`)
+
+Seluruh grafik, tabel evaluasi, confusion matrix, classification report, serta hasil pengujian (Real Testing) yang ditampilkan pada laporan ini dihasilkan secara langsung dari notebook tersebut. Dengan demikian, seluruh isi laporan konsisten dengan implementasi yang terdapat pada repository GitHub.
+
+## Lampiran E – Struktur Dataset
+
+Dataset Brain Tumor MRI disusun menggunakan struktur folder berdasarkan kategori kelas sehingga dapat dibaca secara langsung menggunakan fungsi image_dataset_from_directory() pada TensorFlow.
+
+```text
+Brain Tumor MRI Dataset/
+│
+├── Training/
+│   ├── glioma/
+│   ├── meningioma/
+│   ├── notumor/
+│   └── pituitary/
+│
+└── Testing/
+    ├── glioma/
+    ├── meningioma/
+    ├── notumor/
+    └── pituitary/
+```
+## Lampiran F – Repository dan Sumber Daya
+
+Seluruh source code, model, serta dataset yang digunakan pada penelitian ini dapat diakses melalui tautan berikut.
+
+Repository GitHub :
+https://github.com/YGG0/UAS-KecerdasanBuatan
+
+Dataset :
+https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
+
+Model (.keras) :
+https://drive.google.com/file/d/1wuhNIglJ-KTFUB83bza-zpj1XCnCdV5F/view?usp=drive_link
+
+Model Deep Learning tidak disertakan secara langsung pada repository GitHub karena ukuran file melebihi batas maksimum unggahan GitHub (100 MB). Oleh karena itu, model disediakan melalui Google Drive agar aplikasi tetap dapat dijalankan dengan mudah.
