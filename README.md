@@ -29,8 +29,8 @@ Website dikembangkan menggunakan **Flask Framework** sehingga pengguna dapat mel
 
 | Nama | NIM |
 |------|-----|
-| Rezha Achmad Muharam | ........ |
-| Faujan Alamsyah | ........ |
+| Rezha Achmad Muharam | 2406081 |
+| Faujan Alamsyah | 2406121 |
 
 Institut Teknologi Garut
 
