@@ -289,3 +289,137 @@ Proses klasifikasi dilakukan menggunakan pendekatan **Supervised Learning**, di 
 Berdasarkan hasil analisis awal dapat disimpulkan bahwa dataset Brain Tumor MRI memiliki karakteristik yang sesuai untuk diterapkan pada metode Deep Learning. Dataset telah memiliki label yang jelas, terdiri dari empat kelas, serta dipisahkan ke dalam data pelatihan, validasi, dan pengujian sehingga memungkinkan proses evaluasi dilakukan secara objektif.
 
 Tahap selanjutnya adalah melakukan **Exploratory Data Analysis (EDA)** untuk memperoleh gambaran lebih mendalam mengenai distribusi data, karakteristik setiap kelas, serta kondisi dataset sebelum dilakukan proses pelatihan model.
+# 4. Exploratory Data Analysis (EDA)
+
+## 4.1 Pendahuluan
+
+Exploratory Data Analysis (EDA) merupakan tahap awal yang bertujuan untuk memahami karakteristik dataset sebelum dilakukan proses pelatihan model. Tahapan ini penting untuk mengetahui distribusi data, keseimbangan antar kelas, kualitas citra, serta potensi permasalahan yang dapat memengaruhi performa model Deep Learning.
+
+Pada penelitian ini, EDA dilakukan menggunakan beberapa visualisasi seperti distribusi jumlah data, contoh citra MRI, serta analisis karakteristik setiap kelas.
+
+---
+
+## 4.2 Distribusi Dataset
+
+Distribusi jumlah data pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).
+
+```md
+![Dataset Distribution](images/dataset_distribution.png)
+```
+
+### Analisis
+
+Berdasarkan visualisasi tersebut dapat diketahui bahwa dataset terdiri atas empat kelas utama, yaitu **Glioma**, **Meningioma**, **Pituitary**, dan **No Tumor**. Setiap kelas memiliki jumlah data yang relatif seimbang sehingga risiko bias model terhadap kelas tertentu menjadi lebih kecil.
+
+Distribusi data yang seimbang merupakan kondisi yang baik dalam proses pelatihan Deep Learning karena model memperoleh jumlah sampel yang relatif sama pada setiap kelas.
+
+---
+
+## 4.3 Persentase Distribusi Kelas
+
+Selain menggunakan diagram batang, distribusi kelas juga divisualisasikan menggunakan diagram lingkaran (Pie Chart).
+
+```md
+![Pie Chart](images/pie_chart.png)
+```
+
+### Analisis
+
+Diagram lingkaran menunjukkan proporsi masing-masing kelas terhadap keseluruhan dataset.
+
+Apabila proporsi antar kelas relatif sama, maka dataset dapat dikatakan memiliki distribusi yang cukup baik untuk proses klasifikasi multikelas (*Multiclass Classification*).
+
+---
+
+## 4.4 Contoh Citra MRI
+
+Berikut merupakan contoh citra MRI pada masing-masing kelas.
+
+```md
+![Sample Dataset](images/sample_dataset.png)
+```
+
+### Analisis
+
+Setiap kelas memiliki karakteristik visual yang berbeda.
+
+- **Glioma** umumnya memiliki tekstur tidak beraturan dengan penyebaran tumor pada jaringan otak.
+- **Meningioma** cenderung berada di bagian luar jaringan otak karena berasal dari lapisan meninges.
+- **Pituitary** berada pada area kelenjar pituitari sehingga ukuran tumornya relatif lebih kecil.
+- **No Tumor** menunjukkan struktur jaringan otak yang normal tanpa adanya indikasi tumor.
+
+Perbedaan karakteristik tersebut memungkinkan model CNN maupun EfficientNetB0 mempelajari pola visual secara otomatis.
+
+---
+
+## 4.5 Dimensi Citra
+
+Sebelum dilakukan proses pelatihan model, seluruh citra dianalisis untuk mengetahui ukuran gambar yang digunakan.
+
+```md
+![Image Size](images/image_size.png)
+```
+
+### Analisis
+
+Hasil analisis menunjukkan bahwa ukuran citra pada dataset tidak seluruhnya sama sehingga diperlukan proses **Resize** pada tahap Data Preparation.
+
+Seluruh gambar akan diubah menjadi ukuran **224 × 224 piksel** agar sesuai dengan input model CNN maupun EfficientNetB0.
+
+---
+
+## 4.6 Analisis Warna Citra
+
+Dataset Brain Tumor MRI menggunakan citra berwarna (RGB).
+
+Walaupun informasi utama berada pada struktur jaringan otak, penggunaan citra RGB tetap dipertahankan agar seluruh informasi piksel dapat dimanfaatkan oleh model Deep Learning.
+
+Setiap citra memiliki tiga kanal warna:
+
+- Red (R)
+- Green (G)
+- Blue (B)
+
+yang direpresentasikan dalam bentuk tensor berukuran:
+
+```text
+(224, 224, 3)
+```
+
+---
+
+## 4.7 Analisis Ketidakseimbangan Dataset
+
+Salah satu tahapan penting dalam EDA adalah mengetahui apakah dataset mengalami **Class Imbalance**.
+
+Berdasarkan hasil visualisasi distribusi kelas diperoleh bahwa jumlah data pada masing-masing kelas relatif seimbang sehingga tidak diperlukan teknik penyeimbangan data seperti:
+
+- SMOTE
+- Random Oversampling
+- Random Undersampling
+
+Kondisi ini memberikan keuntungan karena model dapat mempelajari setiap kelas secara lebih adil.
+
+---
+
+## 4.8 Insight Hasil EDA
+
+Berdasarkan seluruh proses eksplorasi data dapat diperoleh beberapa informasi penting.
+
+1. Dataset terdiri atas empat kelas yang sesuai untuk permasalahan **Multiclass Classification**.
+
+2. Seluruh data berbentuk citra MRI sehingga pendekatan **Computer Vision** menggunakan Deep Learning sangat sesuai diterapkan.
+
+3. Dataset memiliki distribusi kelas yang relatif seimbang sehingga risiko bias model menjadi lebih kecil.
+
+4. Ukuran citra tidak seragam sehingga diperlukan proses **Resize** sebelum dilakukan pelatihan model.
+
+5. Setiap kelas memiliki karakteristik visual yang berbeda sehingga model CNN maupun EfficientNetB0 diharapkan mampu mempelajari fitur-fitur penting secara otomatis.
+
+---
+
+## 4.9 Kesimpulan Exploratory Data Analysis
+
+Hasil Exploratory Data Analysis menunjukkan bahwa dataset Brain Tumor MRI memiliki kualitas yang baik untuk digunakan dalam proses klasifikasi menggunakan Deep Learning.
+
+Dataset telah memiliki label yang jelas, distribusi kelas yang relatif seimbang, serta karakteristik visual yang berbeda pada setiap kelas. Selanjutnya dilakukan tahap **Data Preparation** untuk mempersiapkan dataset sebelum digunakan pada proses pelatihan model.
