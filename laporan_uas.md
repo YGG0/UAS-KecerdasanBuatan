@@ -228,7 +228,7 @@ Berikut merupakan contoh citra MRI pada masing-masing kelas.
 
 Distribusi jumlah citra pada masing-masing kelas divisualisasikan menggunakan diagram batang (Bar Chart).
 
-```md
+```
 ![Dataset Distribution](static/images/dataset_distribution.png)
 ```
 
