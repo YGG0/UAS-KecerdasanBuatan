@@ -1,5 +1,14 @@
-# 🧠 BrainTumorAI
-## Klasifikasi Tumor Otak Menggunakan Deep Learning Berbasis Citra MRI
+<p align="center">
+    <img src="static/images/banner-github.png" width="100%">
+</p>
+
+<h1 align="center">
+🧠 BrainTumorAI
+</h1>
+
+<p align="center">
+Klasifikasi Tumor Otak Menggunakan Deep Learning Berbasis Citra MRI
+</p>
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.21-orange?logo=tensorflow)
