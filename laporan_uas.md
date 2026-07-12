@@ -151,20 +151,20 @@ Keempat kelas tersebut digunakan sebagai target klasifikasi pada penelitian ini.
 
 ---
 
-## 3.2 Deskripsi Dataset
+## 3.2 Deskripsi Atribut Dataset
 
-Dataset berupa kumpulan citra MRI otak dalam format gambar digital. Seluruh citra telah dikelompokkan berdasarkan jenis tumor sehingga memudahkan proses pelatihan model Deep Learning.
+Meskipun dataset yang digunakan berupa citra (image dataset), setiap data tetap memiliki atribut atau karakteristik yang digunakan selama proses pelatihan model Deep Learning.
 
-### Karakteristik Dataset
+| Atribut | Tipe Data | Deskripsi |
+|----------|-----------|-----------|
+| Image | JPG / JPEG / PNG | Citra MRI otak yang digunakan sebagai data masukan model. |
+| Label | String | Label kelas yang menunjukkan kategori citra MRI. |
+| Width | Integer | Lebar citra dalam satuan piksel. |
+| Height | Integer | Tinggi citra dalam satuan piksel. |
+| Channel | Integer | Jumlah kanal warna (RGB = 3 Channel). |
+| Target Class | Categorical | Kelas keluaran yang akan diprediksi model. |
 
-| Informasi | Keterangan |
-|------------|------------------------------|
-| Jenis Dataset | Image Dataset |
-| Format File | JPG / JPEG / PNG |
-| Jenis Data | RGB Image |
-| Target | Multiclass Classification |
-| Jumlah Kelas | 4 |
-| Framework | TensorFlow & Keras |
+Berdasarkan atribut tersebut, model Deep Learning memanfaatkan informasi visual dari citra MRI sebagai data masukan, sedangkan label digunakan sebagai target pada proses pembelajaran (*Supervised Learning*).
 
 ---
 
