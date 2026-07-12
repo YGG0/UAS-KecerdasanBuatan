@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Klasifikasi Tumor Otak</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script defer
+        src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <nav>
+
+        <div class="logo">
+
+            🧠 BrainTumorAI
+
+        </div>
+
+        <ul>
+
+            <li><a href="#">Beranda</a></li>
+
+            <li><a href="#tentang">Tentang</a></li>
+
+            <li><a href="#dataset">Dataset</a></li>
+
+            <li><a href="#training">Pelatihan</a></li>
+
+            <li><a href="#comparison">Perbandingan</a></li>
+
+            <li><a href="#prediction">Prediksi</a></li>
+
+        </ul>
+
+    </nav>
+
+    <!-- ========================= -->
+    <!-- HERO -->
+    <!-- ========================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+
+                🧠 Klasifikasi Tumor Otak Menggunakan Citra MRI
+
+            </h1>
+
+            <p>
+
+                Sistem berbasis Deep Learning menggunakan
+                model Custom Convolutional Neural Network (CNN)
+                untuk mengklasifikasikan citra MRI
+                menjadi empat kategori tumor otak.
+
+            </p>
+
+            <div class="hero-button">
+
+                <a href="#prediction">
+
+                    <button class="btn">
+
+                        🔍 Coba Prediksi
+
+                    </button>
+
+                </a>
+
+                <a href="#tentang">
+
+                    <button class="btn-outline">
+
+                        📖 Pelajari Lebih Lanjut
+
+                    </button>
+
+                </a>
+
+            </div>
+
+            <div class="hero-stat">
+
+                <div class="stat-card">
+
+                    <h2>4</h2>
+
+                    <span>Kelas</span>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2>76.06%</h2>
+
+                    <span>Akurasi CNN</span>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2>2</h2>
+
+                    <span>Model</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- TENTANG -->
+    <!-- ========================= -->
+
+    <section class="section" id="tentang">
+
+        <h2>
+
+            Tentang Proyek
+
+        </h2>
+
+        <p>
+
+            Aplikasi ini dikembangkan untuk membantu proses
+            klasifikasi citra MRI otak menggunakan metode
+            Deep Learning.
+
+            Model yang digunakan merupakan
+            Custom Convolutional Neural Network (CNN)
+            yang dipilih berdasarkan hasil evaluasi
+            dan memiliki performa terbaik dibandingkan
+            EfficientNetB0.
+
+        </p>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- BUSINESS UNDERSTANDING -->
+    <!-- ========================= -->
+
+    <section class="section">
+
+        <h2>
+
+            Business Understanding
+
+        </h2>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+
+                    🎯 Latar Belakang
+
+                </h3>
+
+                <p>
+
+                    Diagnosis tumor otak membutuhkan
+                    ketelitian tinggi sehingga diperlukan
+                    teknologi Artificial Intelligence
+                    untuk membantu proses identifikasi
+                    berdasarkan citra MRI.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    ❗ Permasalahan
+
+                </h3>
+
+                <p>
+
+                    Proses identifikasi manual memerlukan
+                    waktu serta bergantung pada pengalaman
+                    tenaga medis sehingga diperlukan
+                    sistem pendukung yang lebih cepat.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    🎯 Tujuan
+
+                </h3>
+
+                <p>
+
+                    Mengembangkan sistem klasifikasi
+                    tumor otak menggunakan Deep Learning
+                    yang mampu memberikan hasil prediksi
+                    secara cepat dan akurat.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    💡 Solusi
+
+                </h3>
+
+                <p>
+
+                    Menggunakan model Custom CNN
+                    untuk mengklasifikasikan
+                    citra MRI menjadi empat kategori
+                    yaitu Glioma, Meningioma,
+                    Pituitary dan Tidak Ada Tumor.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- DATASET -->
+    <!-- ========================= -->
+
+    <section class="section" id="dataset">
+
+        <h2>
+
+            Ringkasan Dataset
+
+        </h2>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+
+                    Distribusi Dataset
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/dataset_distribution.png') }}">
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Contoh Citra MRI
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/sample_images.png') }}">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- TRAINING -->
+    <!-- ========================= -->
+
+    <section class="section" id="training">
+
+        <h2>
+
+            Hasil Pelatihan Model
+
+        </h2>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+
+                    Model Custom CNN
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/cnn_accuracy_loss.png') }}">
+
+                <p>
+
+                    Grafik menunjukkan proses pelatihan
+                    model Custom CNN terhadap dataset
+                    citra MRI otak.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Model EfficientNetB0
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/efficientnet_accuracy_loss.png') }}">
+
+                <p>
+
+                    Grafik menunjukkan proses pelatihan
+                    model EfficientNetB0 sebagai model
+                    pembanding.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- PERBANDINGAN MODEL -->
+    <!-- ========================= -->
+
+    <section class="section" id="comparison">
+
+        <h2>
+
+            Perbandingan Model
+
+        </h2>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/model_comparison.png') }}">
+
+            <h3>
+
+                Hasil Evaluasi Model
+
+            </h3>
+
+            <p>
+
+                Berdasarkan hasil evaluasi menggunakan
+                Accuracy, Precision, Recall,
+                dan F1-Score, model Custom CNN
+                memperoleh performa lebih baik
+                dibandingkan EfficientNetB0.
+
+                Oleh karena itu,
+                model Custom CNN dipilih
+                sebagai model utama
+                yang digunakan pada aplikasi ini.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- CONFUSION MATRIX -->
+    <!-- ========================= -->
+
+    <section class="section">
+
+        <h2>
+
+            Confusion Matrix
+
+        </h2>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+
+                    Model Custom CNN
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/cnn_confusion_matrix.png') }}">
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Model EfficientNetB0
+
+                </h3>
+
+                <img src="{{ url_for('static', filename='images/efficientnet_confusion_matrix.png') }}">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- PREDIKSI -->
+    <!-- ========================= -->
+
+    <section class="section" id="prediction">
+
+        <h2>
+
+            Prediksi Tumor Otak
+
+        </h2>
+
+        <div class="card">
+
+            <form
+                action="/predict"
+                method="POST"
+                enctype="multipart/form-data">
+
+                <div class="drop-area" id="drop-area">
+
+    <input
+        type="file"
+        id="fileInput"
+        name="file"
+        accept="image/*"
+        hidden>
+
+    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+    <h2>Drag & Drop Gambar MRI</h2>
+
+    <p>atau klik untuk memilih gambar</p>
+
+    <img id="preview" style="display:none;">
+
+</div>
+
+                <button
+type="submit"
+class="predict-btn">
+
+<i class="fa-solid fa-brain"></i>
+
+Prediksi Sekarang
+
+</button>
+
+            </form>
+
+        </div>
+
+        {% if prediction %}
+
+        <div class="result">
+
+            <h2>
+
+                Hasil Prediksi
+
+            </h2>
+
+            <img
+                src="{{ image }}"
+                alt="MRI">
+
+            <div class="prediction-box">
+
+                <h1>
+
+                    {{ prediction }}
+
+                </h1>
+
+                <h3>
+
+                    Tingkat Keyakinan
+
+                    {{ confidence }}%
+
+                </h3>
+
+                <p>
+
+                    {{ description }}
+
+                </p>
+
+            </div>
+
+            <h3>
+
+                Probabilitas Setiap Kelas
+
+            </h3>
+
+            {% for key, value in probabilities.items() %}
+
+            <div class="probability">
+
+                <div class="label">
+
+                    <span>
+
+                        {{ key }}
+
+                    </span>
+
+                    <span>
+
+                        {{ value }}%
+
+                    </span>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ value }}%;">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+ <footer>
+
+    <div class="footer-container">
+
+        <h2>
+            🧠 Klasifikasi Tumor Otak Menggunakan Deep Learning
+        </h2>
+
+        <p>
+            Website ini merupakan implementasi Deep Learning menggunakan
+            arsitektur Custom Convolutional Neural Network (CNN)
+            untuk mengklasifikasikan citra MRI otak menjadi empat kategori.
+        </p>
+
+        <hr>
+
+        <div class="footer-grid">
+
+            <div>
+
+                <h3>Framework</h3>
+
+                <p>Flask</p>
+                <p>TensorFlow</p>
+                <p>Python</p>
+
+            </div>
+
+            <div>
+
+                <h3>Model</h3>
+
+                <p>Custom CNN</p>
+                <p>EfficientNetB0</p>
+
+            </div>
+
+            <div>
+
+                <h3>Dataset</h3>
+
+                <p>Brain MRI Images</p>
+                <p>4 Kelas</p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p><strong>👨‍💻 Dikembangkan Oleh</strong></p>
+
+        <p>
+            Rezha Achmad Muharam
+            <br>
+            Faujan Alamsyah
+        </p>
+
+        <p>
+            Program Studi Teknik Informatika
+            <br>
+            Institut Teknologi Garut
+        </p>
+
+        <p style="margin-top:20px;">
+            © 2026 BrainTumorAI. All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>

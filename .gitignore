@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# Flask Upload
+static/uploads/
+
+# Model AI
+brain_tumor_model.keras
+
+# Notebook Cache
+.ipynb_checkpoints/
