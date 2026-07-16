@@ -164,6 +164,24 @@ PowerShell
 
 ## 3. Install Seluruh Library
 
+> **⚠️ Penting**
+>
+> Project ini dikembangkan dan diuji menggunakan **Python 3.12.11 (64-bit)**.
+>
+> Sebelum menginstal library, pastikan Anda telah menginstal Python versi tersebut.
+>
+> **Download Python 3.12.11:**
+>
+> - Official Release:
+>   https://www.python.org/downloads/release/python-31211/
+>
+> - Windows Installer (64-bit):
+>   https://www.python.org/ftp/python/3.12.11/python-3.12.11-amd64.exe
+>
+> Saat proses instalasi, **pastikan mencentang opsi _Add python.exe to PATH_**.
+
+Kemudian install seluruh library menggunakan perintah berikut.
+
 ```bash
 py -m pip install -r requirements.txt
 ```
